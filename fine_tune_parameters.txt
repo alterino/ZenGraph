@@ -1,0 +1,79 @@
+Logging requires wandb to be installed. Run `pip install wandb`.
+usage: openai api fine_tunes.create [-h] -t TRAINING_FILE [-v VALIDATION_FILE]
+                                    [--no_check_if_files_exist] [-m MODEL]
+                                    [--suffix SUFFIX] [--no_follow]
+                                    [--n_epochs N_EPOCHS]
+                                    [--batch_size BATCH_SIZE]
+                                    [--learning_rate_multiplier LEARNING_RATE_MULTIPLIER]
+                                    [--prompt_loss_weight PROMPT_LOSS_WEIGHT]
+                                    [--compute_classification_metrics]
+                                    [--classification_n_classes CLASSIFICATION_N_CLASSES]
+                                    [--classification_positive_class CLASSIFICATION_POSITIVE_CLASS]
+                                    [--classification_betas CLASSIFICATION_BETAS [CLASSIFICATION_BETAS ...]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TRAINING_FILE, --training_file TRAINING_FILE
+                        JSONL file containing prompt-completion examples for
+                        training. This can be the ID of a file uploaded
+                        through the OpenAI API (e.g. file-abcde12345), a local
+                        file path, or a URL that starts with "http".
+  -v VALIDATION_FILE, --validation_file VALIDATION_FILE
+                        JSONL file containing prompt-completion examples for
+                        validation. This can be the ID of a file uploaded
+                        through the OpenAI API (e.g. file-abcde12345), a local
+                        file path, or a URL that starts with "http".
+  --no_check_if_files_exist
+                        If this argument is set and training_file or
+                        validation_file are file paths, immediately upload
+                        them. If this argument is not set, check if they may
+                        be duplicates of already uploaded files before
+                        uploading, based on file name and file size.
+  -m MODEL, --model MODEL
+                        The model to start fine-tuning from
+  --suffix SUFFIX       If set, this argument can be used to customize the
+                        generated fine-tuned model name.All punctuation and
+                        whitespace in `suffix` will be replaced with a single
+                        dash, and the string will be lower cased. The max
+                        length of `suffix` is 40 chars. The generated name
+                        will match the form `{base_model}:ft-{org-
+                        title}:{suffix}-{timestamp}`. For example, `openai api
+                        fine_tunes.create -t test.jsonl -m ada --suffix
+                        "custom model name" could generate a model with the
+                        name ada:ft-your-org:custom-model-
+                        name-2022-02-15-04-21-04
+  --no_follow           If set, returns immediately after creating the job.
+                        Otherwise, streams events and waits for the job to
+                        complete.
+  --n_epochs N_EPOCHS   The number of epochs to train the model for. An epoch
+                        refers to one full cycle through the training dataset.
+  --batch_size BATCH_SIZE
+                        The batch size to use for training. The batch size is
+                        the number of training examples used to train a single
+                        forward and backward pass.
+  --learning_rate_multiplier LEARNING_RATE_MULTIPLIER
+                        The learning rate multiplier to use for training. The
+                        fine-tuning learning rate is determined by the
+                        original learning rate used for pretraining multiplied
+                        by this value.
+  --prompt_loss_weight PROMPT_LOSS_WEIGHT
+                        The weight to use for the prompt loss. The optimum
+                        value here depends depends on your use case. This
+                        determines how much the model prioritizes learning
+                        from prompt tokens vs learning from completion tokens.
+  --compute_classification_metrics
+                        If set, we calculate classification-specific metrics
+                        such as accuracy and F-1 score using the validation
+                        set at the end of every epoch.
+  --classification_n_classes CLASSIFICATION_N_CLASSES
+                        The number of classes in a classification task. This
+                        parameter is required for multiclass classification.
+  --classification_positive_class CLASSIFICATION_POSITIVE_CLASS
+                        The positive class in binary classification. This
+                        parameter is needed to generate precision, recall and
+                        F-1 metrics when doing binary classification.
+  --classification_betas CLASSIFICATION_BETAS [CLASSIFICATION_BETAS ...]
+                        If this is provided, we calculate F-beta scores at the
+                        specified beta values. The F-beta score is a
+                        generalization of F-1 score. This is only used for
+                        binary classification.

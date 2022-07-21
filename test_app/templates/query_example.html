@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head></head>
+   <body>
+      
+      <img src="carney.png" width="290" height="212" alt="" border="0">
+      
+      <hr/>
+      {%- for message in get_flashed_messages() %}
+         {{ message }}
+      {%- endfor %}
+		
+      <table>
+         <thead>
+            <tr>
+               <th>Title</th>
+               <th>City</th>
+               <th>State</th>
+               <th>Low Value</th>
+               <th>High Value</th>
+               <th>Bid Date</th>
+               <th>Action Stage</th>
+               <th>Project Type</th>
+               <th>Publish Date</th>
+            </tr>
+         </thead>
+         
+         <tbody>
+            {% for lead in leads %}
+               <tr>
+                  <td>{{ lead.title }}</td>
+                  <td>{{ lead.city }}</td>
+                  <td>{{ lead.state }}</td>
+                  <td>{{ lead.low_value }}</td>
+                  <td>{{ lead.high_value }}</td>
+                  <td>{{ lead.bid_date }}</td>
+                  <td>{{ lead.action_stage }}</td>
+                  <td>{{ lead.project_type }}</td>
+                  <td>{{ lead.publish_date }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      
+   </body>
+</html>

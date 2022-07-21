@@ -1,0 +1,6 @@
+openai api fine_tunes.create -t "openai-parsed_prepared_train.jsonl"\
+-v "openai-parsed_prepared_valid.jsonl"\
+-m ada\
+--batch_size 64\
+--compute_classification_metrics\
+--classification_n_classes 3
