@@ -20,24 +20,15 @@
                 <div class="col-6 col-md-6">
                     <form action="" method="POST" id="load-data">
                         <label for="data_file" class="form-label">Load .csv file</label>
-                        <input class="form-control form-control-sm" id="data_file" type="file"/>
-                        <button type="submit" class="btn btn-primary">Load</button>
-                    </form>
-                    <div style="background-color:pink;margin-top:10px;">
-                        <h4>Raw Test Prompt</h4>
-                    </div>
-                    <form action="" method="POST" id="raw-prompt">
-                        <div class="row">
-                            <label for="raw-prompt" class="col-2 col-md-2 col-form-label">Prompt</label>
-                            <div class="col-10 col-md-10">
-                                <textarea class="form-control" id="prompt2" name="prompt2" 
-                                    rows="20"></textarea>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-8">
+                                <input class="form-control form-control-sm" id="data_file" type="file"/>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary">Load Data</button>
                             </div>
                         </div>
-                        <div class="offset-10 col-2 form-group row" style="margin-bottom:20px;margin-top:10px">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>        
+                    </form>
                     <div style="background-color:pink;margin-bottom:10px;">
                         <h4>User Interface Test Prompt</h4>
                     </div>
@@ -90,11 +81,31 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>        
+                    <div style="background-color:pink;margin-top:10px;">
+                        <h4>Raw Test Prompt</h4>
+                    </div>
+                    <form action="" method="POST" id="raw-prompt">
+                        <div class="row">
+                            <label for="raw-prompt" class="col-2 col-md-2 col-form-label">Prompt</label>
+                            <div class="col-10 col-md-10">
+                                <textarea class="form-control" id="prompt2" name="prompt2" 
+                                    rows="20"></textarea>
+                            </div>
+                        </div>
+                        <div class="offset-10 col-2 form-group row" style="margin-bottom:20px;margin-top:10px">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>        
                 </div>
                 <div class="col-6 col-md-6 search-params">
-                    <label for="output" class="col-1 col-md-1 col-form-label">Output</label>
-                    <div id="output" name="output" class="col-12 col-md-12"
-                        style="border-style:groove;height:800px;"></div>
+                    <div class="row offset-2 col-10" id="data-summary" name="data-summary">
+                        <em>no data has been loaded</em>
+                    </div>
+                    <div class="row">
+                        <label for="output" class="col-1 col-md-1 col-form-label">Output</label>
+                        <div id="output" name="output" class="col-12 col-md-12"
+                            style="border-style:groove;height:800px;"></div>
+                    </div>
                 </div>
             </div>
             <div class="row" style="margin-bottom:100px;">
@@ -108,10 +119,10 @@
         <script>
 
             const input_file = document.getElementById("data_file");
+            var input_names = [];
             
             document.getElementById('load-data').onsubmit = function (e) {
                 e.preventDefault();
-                console.log("made it here");
 
                 const input = input_file.files[0];
                 const reader = new FileReader();
@@ -134,7 +145,11 @@
                       return response.json();
                     })
                     .then(function (jsonResponse) {
-                      success = jsonResponse['success']
+                      success = jsonResponse['success'];
+                      input_names = jsonResponse['variables'];
+                      varstr = jsonResponse['varstr']
+
+                      document.getElementById('data-summary').innerText = varstr;
                     })       
                 };
 
@@ -142,6 +157,7 @@
           }
             document.getElementById('prompt-form').onsubmit = function (e) {
                 e.preventDefault();
+                console.log(input_names);
 
                 free_prompt = document.getElementById('prompt').value
                 title = document.getElementById('title').value

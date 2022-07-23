@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort 
 from flask_bootstrap import Bootstrap4
+from functools import reduce
 import requests
 import json
 import os
@@ -48,15 +49,25 @@ def process_query():
 
     for k in prompt_params:
         print(k, prompt_params[k])
+        
+
+
+
     return jsonify({'success': True})
 
 @app.route('/load_csv_data', methods=['POST'])
 def load_csv_data():
 
     data = request.get_json()
-    breakpoint()
+    varnames = list(data[0].keys())
+    
+    prepend = 'variable names:\n'
 
-    return jsonify({'success': True})
+    varname_str = prepend + reduce(lambda base, name : base + ', ' + name, varnames)
+
+    return jsonify({'success': True,
+                    'variables': varnames,
+                    'varstr' : varname_str})
 
 @app.route('/submit_raw', methods=['POST'])
 def submit_raw():
