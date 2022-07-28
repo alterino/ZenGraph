@@ -1,21 +1,49 @@
+from itertools import product, chain, combinations
 
+def powerset(iterable):
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
+components = dict()
 
+components['base'] = 'Write code that loads data from {CSV_NAME} and draws a {CHART_TYPE} chart of {VARIABLE_SPEC}.'
+components['title'] = 'Make the title {TITLE}.'
+components['color'] = 'Use {COLOR_SPEC} colors for the data.'
+# components['linestyle'] = 'Use the line style {LINE_STYLE}.'
+components['markerstyle'] = 'Use the [marker, line] style {MARKER_STYLE}.'
+components['bgcolor'] = 'Make the background color {BG_COLOR}.'
+components['markerfill'] = 'Marker fill should be set to {MARKER_FILL}.'
+components['gridspecs'] = 'Draw a {GRID_SHADE}, {GRID_EXTENT} grid'
 
+components['xlabel'] = 'Make the x axis label {XLABEL}.'
+components['ylabel'] = 'Make the y axis label {YLABEL}.'
 
+components['mplstyle'] = 'Use the matplotlib style preset {STYLE_PRESET}.'
 
-base_prompt = 'Write code that loads data from {CSV_NAME} and draws a {CHART_TYPE} chart of {VARIABLE_SPEC}.'
-title_prompt = 'Make the title {TITLE}.'
-color_prompt = 'Use {COLOR_SPEC} colors for the data.'
-linestyle_prompt = 'Use the line style {LINE_STYLE}.'
-markerstyle_prompt = 'Use the marker style {MARKER_STYLE}.'
-bgcolor_prompt = 'Make the background color {BG_COLOR}.'
-markerfill_prompt = 'Marker fill should be set to {MARKER_FILL}.'
-gridshade_prompt = 'Draw a {GRID_SHADE}, {GRID_EXTENT} grid'
+base_key = 'base'
+opt_keys = ['title', 
+            'color', 
+            'markerstyle', 
+            'bgcolor', 
+            'markerfill', 
+            'gridspecs', 
+            'xlabel',
+            'ylabel',
+            'mplstyle'
+            ]
 
-mplstyle_prompt = 'Use the matplotlib style preset {STYLE_PRESET}.'
+prompt_keys = powerset(opt_keys)
+prompt_blocks = dict()
+for (i, pkeys) in enumerate(prompt_keys):
+    blocks = tuple([components[k] for k in pkeys])
+    prompt_blocks[pkeys] = blocks
+    print(pkeys, end='')
+    print(f' ({i}): ')
+    for b in blocks:
+        print(b)
+    print()
 
-
+breakpoint()
 chart_types = ['scatter', 'line', 'bar', 'histogram', 'pie', 'stacked-bar', 'stem', 'compound']
 linestyle_types = ['solid', 'dotted', 'dashed', 'dashdot', 'loosely dotted', 'dotted', 'densely dotted', 'loosely dashed',
         'dashed', 'densely dashed', 'loosely dashdotted', 'dashdotted', 'densely dashdotted', 'dashdotdotted', 
@@ -23,12 +51,3 @@ linestyle_types = ['solid', 'dotted', 'dashed', 'dashdot', 'loosely dotted', 'do
 markerstyle_types = ['.', ',', 'o', 'v', '^', '<', '>']
 grid_shades = ['very light', 'light', 'dark', 'very dark', 'black']
 grid_extents = ['minimal', 'moderate', 'maximal']
-
-"""
-combos - base base/title base/title/color base/title/linestyle base/title/markerstyle
-         base/title/color/linestyle base/title/color/markerstyle
-"""
-
-test = base_prompt + ' ' + title_prompt
-
-breakpoint()
