@@ -9,6 +9,7 @@ instance/
 *from_github*
 *.ipynb_checkpoints
 *datasets*
+*.sw*
 
 .pytest_cache/
 .coverage
