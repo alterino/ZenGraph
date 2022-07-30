@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort 
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 
 from functools import reduce
 import requests
@@ -10,11 +10,11 @@ import os
 import sys
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap4(app)
 #fa = FontAwesome(app)
 
 def openai_api_call(prompt, max_tokens=128,
-                            model="text-davinci-002",
+                            model="text-curie-001",
                             temperature=0.7,
                             stop=None):
 

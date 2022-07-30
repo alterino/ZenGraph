@@ -1,4 +1,5 @@
 from itertools import product, chain, combinations
+from notebook_tools import *
 
 def powerset(iterable):
     s = list(iterable)
@@ -9,7 +10,7 @@ components = dict()
 components['base'] = 'Write code that loads data from {CSV_NAME} and draws a {CHART_TYPE} chart of {VARIABLE_SPEC}.'
 components['title'] = 'Make the title {TITLE}.'
 components['color'] = 'Use {COLOR_SPEC} colors for the data.'
-# components['linestyle'] = 'Use the line style {LINE_STYLE}.'
+components['linestyle'] = 'Use the line style {LINE_STYLE}.'
 components['markerstyle'] = 'Use the [marker, line] style {MARKER_STYLE}.'
 components['bgcolor'] = 'Make the background color {BG_COLOR}.'
 components['markerfill'] = 'Marker fill should be set to {MARKER_FILL}.'
@@ -23,6 +24,7 @@ components['mplstyle'] = 'Use the matplotlib style preset {STYLE_PRESET}.'
 base_key = 'base'
 opt_keys = ['title', 
             'color', 
+            'linestyle',
             'markerstyle', 
             'bgcolor', 
             'markerfill', 
@@ -37,17 +39,22 @@ prompt_blocks = dict()
 for (i, pkeys) in enumerate(prompt_keys):
     blocks = tuple([components[k] for k in pkeys])
     prompt_blocks[pkeys] = blocks
-    print(pkeys, end='')
-    print(f' ({i}): ')
-    for b in blocks:
-        print(b)
-    print()
+    #print(pkeys, end='')
+    #print(f' ({i}): ')
+    #for b in blocks:
+    #    print(b)
+    #print()
 
+for (i, k) in enumerate(prompt_blocks.keys()):
+    print(i, k)
 breakpoint()
-chart_types = ['scatter', 'line', 'bar', 'histogram', 'pie', 'stacked-bar', 'stem', 'compound']
-linestyle_types = ['solid', 'dotted', 'dashed', 'dashdot', 'loosely dotted', 'dotted', 'densely dotted', 'loosely dashed',
-        'dashed', 'densely dashed', 'loosely dashdotted', 'dashdotted', 'densely dashdotted', 'dashdotdotted', 
-        'loosely dashdotdotted', 'densely dashdotdotted']
-markerstyle_types = ['.', ',', 'o', 'v', '^', '<', '>']
-grid_shades = ['very light', 'light', 'dark', 'very dark', 'black']
-grid_extents = ['minimal', 'moderate', 'maximal']
+# chart_types = ['scatter', 'line', 'bar', 'histogram', 'pie', 'stacked-bar', 'stem', 'compound']
+# linestyle_types = ['solid', 'dotted', 'dashed', 'dashdot', 'loosely dotted', 'dotted', 'densely dotted', 'loosely dashed',
+#         'dashed', 'densely dashed', 'loosely dashdotted', 'dashdotted', 'densely dashdotted', 'dashdotdotted', 
+#         'loosely dashdotdotted', 'densely dashdotdotted']
+# markerstyle_types = ['.', ',', 'o', 'v', '^', '<', '>']
+# grid_shades = ['very light', 'light', 'dark', 'very dark', 'black']
+# grid_extents = ['minimal', 'moderate', 'maximal']
+
+
+

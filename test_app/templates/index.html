@@ -7,6 +7,7 @@
 
         <!-- Bootstrap CSS -->
 
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
         <title>ZenGraph development interface - v0</title>
@@ -106,15 +107,52 @@
                         <div id="output" name="output" class="col-12 col-md-12"
                             style="border-style:groove;height:500px;"></div>
                     </div>
-                </div>
-            </div>
+                    <div class="sage row">
+                          <script type="text/x-sage">1+2</script>
+                    </div>
+                    <div class="sage row">
+                  		<h4>Code Cell</h4>
+                    		<div id="code-output" class="compute">
+                                <script type="text/x-sage">
+# copy output here to test
+                                </script>
+                            </div>
+                    </div>
         </div>
+            
+        </div>
+    </div>
     
 
         <script src="{{ url_for('static', filename='node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
         <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script>
+            const sageElement = document.getElementById("code-output");
+            console.log('first');
+            console.log(sageElement);
+            const init_code = sageElement.innerText;
+            console.log(init_code);
+        </script>
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <script>
+            // Make the div with id 'mycell' a Sage cell
+            sagecell.makeSagecell({inputLocation:  '#mycell',
+                                   template:       sagecell.templates.minimal,
+                                   evalButtonText: 'Activate'});
+            // Make *any* div with class 'compute' a Sage cell
+            sagecell.makeSagecell({inputLocation:  'div.compute',
+                                   evalButtonText: 'Evaluate'});
+
+        </script>
+        <script>
+
+            //const sageElement = document.getElementById("code-output");
+            console.log(sageElement);
+            const second_code = sageElement.innerText;
+            console.log("logging second code in box...");
+            console.log(sageElement);
+            console.log(second_code);
 
             const input_file = document.getElementById("data_file");
             var input_names = [];
@@ -124,9 +162,6 @@
 
                 const input = input_file.files[0];
                 const reader = new FileReader();
-
-                console.log(input);
-                console.log(reader);
 
                 reader.onload = function (e) {
                     const text = e.target.result;
@@ -205,11 +240,11 @@
               })
               .then(function (jsonResponse) {
                 success = jsonResponse['success']
-                output = jsonResponse['prompt']
+                prompt_input = jsonResponse['prompt']
                 completion = jsonResponse['completion']
 
-                output_str = "Prompt:\n\n" + output + "\n\nCompletion:\n\n" + completion;
-                document.getElementById("output").innerText = output_str
+                output_str = "Prompt:\n\n" + prompt_input + "\n\nCompletion:\n" + completion.trim();
+                document.getElementById("output").innerText = output_str;
               })       
           }
         </script>
