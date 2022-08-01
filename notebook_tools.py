@@ -75,12 +75,13 @@ def build_code_cells(options_key, num_samples=5, inputs=None):
         code_text = '\"\'\'\'\\n\",\n'
         code_text += f'\"options_key=\'{options_key}\'\\n\",\n'
         code_text += f'\"sample_id=<{i}>\\n\",\n'
+        code_text += '\"\\n\",\n'
+        code_text += '\"Please specify the following inputs from your sample:\\n\",\n'
+        code_text += '\"\\n\",\n'
         if inputs is not None:
-            code_text += '\"\\n\",\n'
-            code_text += '\"Please specify the following inputs from your sample:\\n\",\n'
-            code_text += '\"\\n\",\n'
             for inp in inputs:
                 code_text += f'\"{inp} = ' + '{NOT SPECIFIED}\\n\",\n'
+        code_text += '\"OPTIONAL_APPEND = {None}\\n\",\n'
         code_text += '\"\'\'\'\\n\",\n'
 
         code_text += '\"\\n\",\n'
